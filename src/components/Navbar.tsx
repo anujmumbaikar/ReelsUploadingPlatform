@@ -1,35 +1,35 @@
 'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
-import { User } from 'next-auth'
 import { Button } from '@/components/ui/button'
 
 function Navbar() {
   const { data: session } = useSession()
-  const user: User = session?.user as User
-  return (
-    <nav className='p-4 md:p-6 shadow-md'>
-      <div className='container mx-auto flex flex-col md:flex-row justify-between items-center'>
-        <a className="text-xl font-bold mb-4 md:mb-0" href="#">Reels Upload</a>
+  const user = session?.user
 
-        {
-          session ? (
+  return (
+    <nav className="w-full border-b">
+      <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <Link href="/" className="text-2xl font-semibold">
+          Reels Upload
+        </Link>
+
+        <div className="flex items-center gap-4">
+          {session ? (
             <>
-              <span className='mr-4'>Welcome, {user?.email}</span>
-              <Button
-                className='w-full md:w-auto'
-                onClick={() => signOut({ callbackUrl: '/' })}
-              >
-                Log Out
+              <span className="text-sm text-muted-foreground">Welcome, {user?.email}</span>
+              <Button variant="outline" onClick={() => signOut({ callbackUrl: '/' })}>
+                Log out
               </Button>
             </>
           ) : (
-            <Link href='/login'>
-              <Button className='w-full md:w-auto'>Login</Button>
+            <Link href="/login">
+              <Button>Login</Button>
             </Link>
-          )
-        }
+          )}
+        </div>
       </div>
     </nav>
   )
