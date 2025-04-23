@@ -10,9 +10,12 @@ class ApiClient {
     private baseUrl: string;
     
     constructor() {
-        // Use absolute URL in production, relative in development
-        this.baseUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
-    }
+        // For local development, explicitly set your backend URL
+        this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 
+          (process.env.NODE_ENV === 'development' 
+            ? 'http://localhost:3000/api'  // 👈 Match your local server port
+            : '/api');  // 👈 Vercel uses /api automatically
+      }
     
     private async fetch<T>(
         endpoint: string,
