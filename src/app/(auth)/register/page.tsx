@@ -1,7 +1,10 @@
 "use client"
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -32,13 +35,16 @@ export default function Register() {
 
       router.push("/login");
     } catch (error) {
-      console.error('Registration error:', error);
-      
+      console.error("Registration error:", error);
     }
   };
 
+  const handleGoogleRegister = () => {
+    signIn("google", { callbackUrl: "/" });
+  };
+
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Register</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -80,19 +86,32 @@ export default function Register() {
             className="w-full px-3 py-2 border rounded"
           />
         </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
+        <Button type="submit" className="w-full">
           Register
-        </button>
-        <p className="text-center mt-4">
-          Already have an account?{" "}
-          <Link href="/login" className="text-blue-500 hover:text-blue-600">
-            Login
-          </Link>
-        </p>
+        </Button>
       </form>
+
+      <div className="mt-6">
+        <Button
+          variant="outline"
+          className="w-full flex items-center justify-center gap-2"
+          onClick={handleGoogleRegister}
+        >
+          <img
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            alt="Google"
+            className="w-5 h-5"
+          />
+          Sign up with Google
+        </Button>
+      </div>
+
+      <p className="text-center mt-6">
+        Already have an account?{" "}
+        <Link href="/login" className="text-blue-500 hover:text-blue-600">
+          Login
+        </Link>
+      </p>
     </div>
   );
 }
