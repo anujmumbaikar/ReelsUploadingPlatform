@@ -71,7 +71,7 @@ export default function Login() {
           className="w-full flex items-center justify-center gap-2"
           onClick={handleGoogleLogin}
         >
-          <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5"/>
           Sign in with Google
         </Button>
       </div>
