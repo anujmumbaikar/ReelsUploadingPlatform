@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -20,7 +21,7 @@ export default function Login() {
     })
 
     if (result?.error) {
-      console.error(result.error)
+      toast.error("Invalid credentials")
     } else {
       router.push("/")
     }

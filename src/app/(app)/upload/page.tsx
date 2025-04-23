@@ -11,7 +11,7 @@ import {
 import { useRef, useState } from "react";
 import { VideoFormData } from "@/lib/api-client";
 import { useRouter } from "next/navigation";
-
+import { toast } from "sonner";
 const UploadExample = () => {
     const route = useRouter()
     const [progress, setProgress] = useState(0);
@@ -31,8 +31,7 @@ const UploadExample = () => {
             const data = await response.json();
             return data;
         } catch (error) {
-            console.error("Authentication error:", error);
-            throw new Error("Authentication request failed");
+            toast.error("Failed to authenticate upload");
         }
     };
 
@@ -64,7 +63,7 @@ const UploadExample = () => {
                 abortSignal: abortController.signal,
             });
 
-            console.log("Upload success:", uploadResponse);
+            toast.success("Video uploaded successfully!");
 
             const videoData: VideoFormData = {
                 title,
@@ -84,23 +83,22 @@ const UploadExample = () => {
                 alert("Video not created");
                 return
             }
-            console.log("Video saved to DB:", createdVideo);
-            alert("Video uploaded and saved successfully!");
+            toast.success("Video saved successfully!");
             route.replace("/dashboard")
 
         } catch (error) {
             if (error instanceof ImageKitAbortError) {
-                console.error("Upload aborted:", error.reason);
+                toast.error("Upload aborted");
             } else if (error instanceof ImageKitInvalidRequestError) {
-                console.error("Invalid request:", error.message);
+                toast.error("Invalid request:");
             } else if (error instanceof ImageKitUploadNetworkError) {
-                console.error("Network error:", error.message);
+                toast.error("Network error:");
             } else if (error instanceof ImageKitServerError) {
-                console.error("Server error:", error.message);
+                toast.error("Server error:");
             } else {
-                console.error("Error:", error);
+                toast.error("An unexpected error occurred:");
             }
-            alert("Upload or save failed. Check console.");
+            toast.error("Upload failed");
         }
     };
 

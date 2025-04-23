@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ export default function Register() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      console.error("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -35,7 +36,7 @@ export default function Register() {
 
       router.push("/login");
     } catch (error) {
-      console.error("Registration error:", error);
+      toast.error("An error occurred");
     }
   };
 

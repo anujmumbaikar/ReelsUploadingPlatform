@@ -19,7 +19,7 @@ class ApiClient{
         const response = await fetch(`/api${endpoint}`,{
             method,
             headers: defaultHeaders,
-            body: body ? JSON.stringify(body) : undefined
+            body: body ? JSON.stringify(body) : undefined,
         })
         if(!response.ok){
             throw new Error(`Error: ${response.status} ${response.statusText}`);
