@@ -1,12 +1,21 @@
 import { Video } from '@imagekit/next';
-export default function Page() {
-  return (
-    <Video
-      urlEndpoint="https://ik.imagekit.io/your_imagekit_id"
-      src="/video.mp4"
-      controls
-      width={1080}
-      height={1920}
-    />
-  )
+
+interface VideoPlayerProps {
+  src: string;
 }
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
+  return (
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden group transition-all transform hover:scale-105">
+      <Video
+        urlEndpoint={`https://ik.imagekit.io/${process.env.IMAGEKIT_ID}`}
+        src={src}
+        controls
+        width={1080}
+        height={1920}
+        className="w-full h-full object-cover"
+      />
+    </div>
+  );
+};
+
+export default VideoPlayer;

@@ -26,7 +26,7 @@ export async function POST(request:NextRequest){
         }
         await dbConnect()
         const body:IVideo = await request.json()
-        if(!body.title || !body.description || !body.videoUrl || !body.thumbnailUrl) {
+        if(!body.title || !body.description || !body.videoUrl) {
             return NextResponse.json({ message: "All fields are required" }, { status: 400 })
         }
         const videoData = {
