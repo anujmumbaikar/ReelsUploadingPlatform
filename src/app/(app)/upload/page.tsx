@@ -62,9 +62,7 @@ const UploadExample = () => {
                 },
                 abortSignal: abortController.signal,
             });
-
             toast.success("Video uploaded successfully!");
-
             const videoData: VideoFormData = {
                 title,
                 description,
@@ -77,7 +75,6 @@ const UploadExample = () => {
                     quality: 100,
                 },
             };
-
             const createdVideo = await apiClient.createVideo(videoData);
             if(!createdVideo) {
                 alert("Video not created");
