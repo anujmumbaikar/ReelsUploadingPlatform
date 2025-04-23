@@ -6,26 +6,39 @@ type FetchOptions = {
     headers?:Record<string, string>;
 
 }
-class ApiClient{
+class ApiClient {
+    private baseUrl: string;
+    
+    constructor() {
+        // Use absolute URL in production, relative in development
+        this.baseUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
+    }
+    
     private async fetch<T>(
         endpoint: string,
-        options:FetchOptions = {}
-    ):Promise<T>{
-        const {method = "GET", body, headers = {}} = options;
-        const defaultHeaders =  {
+        options: FetchOptions = {}
+    ): Promise<T> {
+        const { method = "GET", body, headers = {} } = options;
+        const defaultHeaders = {
             "Content-Type": "application/json",
             ...headers
-        }
-        const response = await fetch(`/api${endpoint}`,{
+        };
+        
+        const url = endpoint.startsWith('/') 
+            ? `${this.baseUrl}${endpoint}` 
+            : `${this.baseUrl}/${endpoint}`;
+            
+        const response = await fetch(url, {
             method,
             headers: defaultHeaders,
             body: body ? JSON.stringify(body) : undefined,
-        })
-        if(!response.ok){
+        });
+        
+        if (!response.ok) {
             throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        return response.json()
-
+        
+        return response.json();
     }
     async getVideos(){
         return this.fetch<IVideo[]>("/videos")
